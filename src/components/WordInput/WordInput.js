@@ -1,6 +1,6 @@
 import React from 'react';
 
-function WordInput() {
+function WordInput({ guessList, setGuessList }) {
   const [wordInput, setWordInput] = React.useState('');
 
   return (
@@ -9,7 +9,9 @@ function WordInput() {
         action="/submit-word"
         onSubmit={(event) => {
           event.preventDefault();
-          console.log('guess: ' + wordInput);
+          const newGuess = { word: wordInput, id: crypto.randomUUID() };
+          const newGuessList = [...guessList, newGuess];
+          setGuessList(newGuessList);
           setWordInput('');
         }}
       >
@@ -18,7 +20,7 @@ function WordInput() {
           value={wordInput}
           type="text"
           id="word-input"
-          name="wond-input"
+          name="word-input"
           pattern="[A-Z]{5}"
           onChange={(event) => {
             setWordInput(event.target.value.toUpperCase());
