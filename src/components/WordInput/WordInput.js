@@ -1,7 +1,10 @@
 import React from 'react';
+import { NUM_OF_GUESSES_ALLOWED, WORD_SIZE } from '../../constants';
 
 function WordInput({ guessList, setGuessList }) {
   const [wordInput, setWordInput] = React.useState('');
+  const [currentGuessIndex, setCurrentGuessIndex] = React.useState(0);
+  const inputCheckPattern = '[A-Z]{' + WORD_SIZE + '}';
 
   return (
     <div className="guess-input-wrapper">
@@ -9,9 +12,15 @@ function WordInput({ guessList, setGuessList }) {
         action="/submit-word"
         onSubmit={(event) => {
           event.preventDefault();
-          const newGuess = { word: wordInput, id: crypto.randomUUID() };
-          const newGuessList = [...guessList, newGuess];
-          setGuessList(newGuessList);
+          if (currentGuessIndex < NUM_OF_GUESSES_ALLOWED) {
+            const newGuess = { word: wordInput, id: crypto.randomUUID() };
+            const newGuessList = [...guessList];
+            newGuessList[currentGuessIndex] = newGuess;
+            setGuessList(newGuessList);
+            setCurrentGuessIndex(currentGuessIndex + 1);
+          } else {
+            window.alert('No more guesses allowed!');
+          }
           setWordInput('');
         }}
       >
@@ -21,7 +30,7 @@ function WordInput({ guessList, setGuessList }) {
           type="text"
           id="word-input"
           name="word-input"
-          pattern="[A-Z]{5}"
+          pattern={inputCheckPattern}
           onChange={(event) => {
             setWordInput(event.target.value.toUpperCase());
           }}

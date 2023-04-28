@@ -2,6 +2,8 @@ import React from 'react';
 
 import { sample } from '../../utils';
 import { WORDS } from '../../data';
+import { NUM_OF_GUESSES_ALLOWED, WORD_SIZE } from '../../constants';
+import { range } from '../../utils';
 
 import PreviousGuesses from '../PreviousGuesses/PreviousGuesses';
 import WordInput from '../WordInput/WordInput';
@@ -12,7 +14,12 @@ const answer = sample(WORDS);
 console.info({ answer });
 
 function Game() {
-  const [guessList, setGuessList] = React.useState([]);
+  const [guessList, setGuessList] = React.useState(
+    range(0, NUM_OF_GUESSES_ALLOWED).map((index) => ({
+      word: ' '.repeat(WORD_SIZE),
+      id: index,
+    }))
+  );
 
   return (
     <>

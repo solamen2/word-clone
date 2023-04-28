@@ -5,7 +5,11 @@ function PreviousGuesses({ guessList }) {
     <div className="guess-results">
       {guessList.map((guess) => (
         <p className="guess" key={guess.id}>
-          {guess.word}
+          {[...guess.word].map((letter, index) => (
+            <span className="cell" key={index}>
+              {letter}
+            </span>
+          ))}
         </p>
       ))}
     </div>
