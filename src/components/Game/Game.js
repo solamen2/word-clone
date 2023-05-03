@@ -8,6 +8,7 @@ import { range } from '../../utils';
 import PreviousGuesses from '../PreviousGuesses/PreviousGuesses';
 import WordInput from '../WordInput/WordInput';
 import GameOverBanner from '../GameOverBanner/GameOverBanner';
+import PreviousKeys from '../PreviousKeys/PreviousKeys';
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
@@ -46,6 +47,7 @@ function Game() {
         numOfGuesses={currentGuessIndex}
         answer={answer}
       />
+      <PreviousKeys guessList={guessList} answer={answer} />
     </>
   );
 }

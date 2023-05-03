@@ -17,7 +17,6 @@ function WordInput({
   return (
     <div className="guess-input-wrapper">
       <form
-        action="/submit-word"
         onSubmit={(event) => {
           event.preventDefault();
           if (wordInput === answer) {
