@@ -11,7 +11,7 @@ import GameOverBanner from '../GameOverBanner/GameOverBanner';
 import PreviousKeys from '../PreviousKeys/PreviousKeys';
 
 // Pick a random word on every pageload.
-const answer = sample(WORDS);
+let answer = sample(WORDS);
 // To make debugging easier, we'll log the solution in the console.
 console.info({ answer });
 export const GameStatuses = Object.freeze({
@@ -21,14 +21,24 @@ export const GameStatuses = Object.freeze({
 });
 
 function Game() {
-  const [guessList, setGuessList] = React.useState(
-    range(0, NUM_OF_GUESSES_ALLOWED).map((index) => ({
+  function getNewGuessList() {
+    return range(0, NUM_OF_GUESSES_ALLOWED).map((index) => ({
       word: ' '.repeat(WORD_SIZE),
       id: index,
-    }))
-  );
+    }));
+  }
+  const [guessList, setGuessList] = React.useState(getNewGuessList());
   const [currentGuessIndex, setCurrentGuessIndex] = React.useState(0);
   const [gameStatus, setGameStatus] = React.useState(GameStatuses.RUNNING);
+
+  function resetGame() {
+    setGuessList(getNewGuessList());
+    setCurrentGuessIndex(0);
+    setGameStatus(GameStatuses.RUNNING);
+    answer = sample(WORDS);
+    // To make debugging easier, we'll log the solution in the console.
+    console.info({ answer });
+  }
 
   return (
     <>
@@ -44,6 +54,7 @@ function Game() {
       />
       <GameOverBanner
         gameStatus={gameStatus}
+        resetGame={resetGame}
         numOfGuesses={currentGuessIndex}
         answer={answer}
       />

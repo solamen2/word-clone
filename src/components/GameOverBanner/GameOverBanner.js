@@ -2,7 +2,7 @@ import React from 'react';
 
 import { GameStatuses } from '../Game/Game';
 
-function GameOverBanner({ gameStatus, numOfGuesses, answer }) {
+function GameOverBanner({ gameStatus, resetGame, numOfGuesses, answer }) {
   if (gameStatus === GameStatuses.WON) {
     return (
       <div className="happy banner">
@@ -10,6 +10,9 @@ function GameOverBanner({ gameStatus, numOfGuesses, answer }) {
           <strong>Congratulations!</strong> You got it in{' '}
           <strong>{numOfGuesses} guesse(s)</strong>.
         </p>
+        <button className="happy-reset-button" onClick={resetGame}>
+          Restart Game
+        </button>
       </div>
     );
   } else if (gameStatus === GameStatuses.LOST) {
@@ -18,6 +21,9 @@ function GameOverBanner({ gameStatus, numOfGuesses, answer }) {
         <p>
           Sorry, the correct answer was <strong>{answer}</strong>.
         </p>
+        <button className="sad-reset-button" onClick={resetGame}>
+          Restart Game
+        </button>
       </div>
     );
   }

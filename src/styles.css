@@ -213,6 +213,17 @@ h1 {
   color: white;
 }
 
+.happy-reset-button {
+  background: var(--color-gray-900);
+  color: black;
+  border-radius: 4px;
+}
+.sad-reset-button {
+  background: var(--color-gray-900);
+  color: black;
+  border-radius: 4px;
+}
+
 .visually-hidden {
   position: absolute;
   overflow: hidden;
