@@ -10,10 +10,6 @@ import WordInput from '../WordInput/WordInput';
 import GameOverBanner from '../GameOverBanner/GameOverBanner';
 import PreviousKeys from '../PreviousKeys/PreviousKeys';
 
-// Pick a random word on every pageload.
-let answer = sample(WORDS);
-// To make debugging easier, we'll log the solution in the console.
-console.info({ answer });
 export const GameStatuses = Object.freeze({
   RUNNING: Symbol('running'),
   WON: Symbol('won'),
@@ -30,12 +26,15 @@ function Game() {
   const [guessList, setGuessList] = React.useState(getNewGuessList());
   const [currentGuessIndex, setCurrentGuessIndex] = React.useState(0);
   const [gameStatus, setGameStatus] = React.useState(GameStatuses.RUNNING);
+  const [answer, setAnswer] = React.useState(sample(WORDS));
+  // To make debugging easier, we'll log the solution in the console.
+  console.info({ answer });
 
   function resetGame() {
     setGuessList(getNewGuessList());
     setCurrentGuessIndex(0);
     setGameStatus(GameStatuses.RUNNING);
-    answer = sample(WORDS);
+    setAnswer(sample(WORDS));
     // To make debugging easier, we'll log the solution in the console.
     console.info({ answer });
   }

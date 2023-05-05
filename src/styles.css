@@ -125,21 +125,18 @@ h1 {
 }
 
 .keys {
-  flex: 1;
   display: flex;
+  gap: 4px;
   flex-direction: column;
-  justify-content: center;
 }
 
 .key-row {
   display: flex;
   gap: 4px;
-  margin-bottom: 4px;
   justify-content: center;
 }
 
 .key {
-  position: relative;
   display: grid;
   justify-content: center;
   aspect-ratio: 1 / 1;
