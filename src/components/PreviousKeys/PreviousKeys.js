@@ -39,28 +39,36 @@ function PreviousKeys({ guessList, answer }) {
     { letter: 'M', id: '13', status: '' },
   ];
 
-  guessList.forEach(({ word }) => {
-    checkGuess(word, answer).forEach(
-      ({ letter: guessLetter = ' ', status: guessStatus = '' }, index) => {
-        const currentKey = qwertyAllKeys.find(
-          (key) => key.letter === guessLetter
-        );
-        if (currentKey) {
-          if (guessStatus === LetterStatuses.CORRECT) {
-            currentKey.status = guessStatus;
-          } else if (guessStatus === LetterStatuses.MISPLACED) {
-            if (currentKey.status !== LetterStatuses.CORRECT) {
-              currentKey.status = guessStatus;
-            }
-          } else if (guessStatus === LetterStatuses.INCORRECT) {
-            if (currentKey.status === LetterStatuses.EMPTY) {
-              currentKey.status = guessStatus;
-            }
+  setGuessListStatuses(guessList);
+
+  function setGuessListStatuses(guessList) {
+    guessList.forEach(({ word }) => {
+      checkGuess(word, answer).forEach(
+        ({ letter: guessLetter = ' ', status: guessStatus = '' }, index) => {
+          const currentKey = qwertyAllKeys.find(
+            (key) => key.letter === guessLetter
+          );
+          if (currentKey) {
+            setHighestStatus(guessStatus, currentKey);
           }
         }
+      );
+    });
+  }
+
+  function setHighestStatus(guessStatus, currentKey) {
+    if (guessStatus === LetterStatuses.CORRECT) {
+      currentKey.status = guessStatus;
+    } else if (guessStatus === LetterStatuses.MISPLACED) {
+      if (currentKey.status !== LetterStatuses.CORRECT) {
+        currentKey.status = guessStatus;
       }
-    );
-  });
+    } else if (guessStatus === LetterStatuses.INCORRECT) {
+      if (currentKey.status === LetterStatuses.EMPTY) {
+        currentKey.status = guessStatus;
+      }
+    }
+  }
 
   return (
     <>

@@ -1,21 +1,12 @@
 import React from 'react';
 
-import { checkGuess } from '../../game-helpers.js';
+import Guess from '../Guess/Guess';
 
 function PreviousGuesses({ guessList, answer }) {
   return (
     <div className="guess-results">
       {guessList.map((guess) => (
-        <p className="guess" key={guess.id}>
-          {checkGuess(guess.word, answer).map(({ letter, status }, index) => (
-            <span
-              className={'cell ' + (letter === ' ' ? '' : status)}
-              key={index}
-            >
-              {letter}
-            </span>
-          ))}
-        </p>
+        <Guess guess={guess} answer={answer} key={guess.id} />
       ))}
     </div>
   );

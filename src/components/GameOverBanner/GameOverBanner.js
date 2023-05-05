@@ -8,9 +8,12 @@ function GameOverBanner({ gameStatus, resetGame, numOfGuesses, answer }) {
       <div className="happy banner">
         <p>
           <strong>Congratulations!</strong> You got it in{' '}
-          <strong>{numOfGuesses} guesse(s)</strong>.
+          <strong>
+            {numOfGuesses === 1 ? '1 guess' : `${numOfGuesses} guesses`}
+          </strong>
+          .
         </p>
-        <button className="happy-reset-button" onClick={resetGame}>
+        <button className="reset-button" onClick={resetGame}>
           Restart Game
         </button>
       </div>
@@ -21,7 +24,7 @@ function GameOverBanner({ gameStatus, resetGame, numOfGuesses, answer }) {
         <p>
           Sorry, the correct answer was <strong>{answer}</strong>.
         </p>
-        <button className="sad-reset-button" onClick={resetGame}>
+        <button className="reset-button" onClick={resetGame}>
           Restart Game
         </button>
       </div>
