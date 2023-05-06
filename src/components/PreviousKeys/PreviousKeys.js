@@ -70,6 +70,10 @@ function PreviousKeys({ guessList, answer }) {
     }
   }
 
+  function getClassName(status) {
+    return status === LetterStatuses.EMPTY ? 'key' : `key used ${status}`;
+  }
+
   return (
     <>
       <div className="keys">
@@ -77,7 +81,7 @@ function PreviousKeys({ guessList, answer }) {
           {qwertyAllKeys
             .slice(FIRST_ROW_START, FIRST_ROW_END)
             .map(({ letter, id, status }) => (
-              <span className={'key ' + status} key={id}>
+              <span className={getClassName(status)} key={id}>
                 {letter}
               </span>
             ))}
@@ -86,7 +90,7 @@ function PreviousKeys({ guessList, answer }) {
           {qwertyAllKeys
             .slice(SECOND_ROW_START, SECOND_ROW_END)
             .map(({ letter, id, status }) => (
-              <span className={'key ' + status} key={id}>
+              <span className={getClassName(status)} key={id}>
                 {letter}
               </span>
             ))}
@@ -95,7 +99,7 @@ function PreviousKeys({ guessList, answer }) {
           {qwertyAllKeys
             .slice(THIRD_ROW_START, THIRD_ROW_END)
             .map(({ letter, id, status }) => (
-              <span className={'key ' + status} key={id}>
+              <span className={getClassName(status)} key={id}>
                 {letter}
               </span>
             ))}

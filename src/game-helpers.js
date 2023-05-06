@@ -43,13 +43,18 @@ export function checkGuess(guess, answer) {
       continue;
     }
 
-    let status = LetterStatuses.INCORRECT;
-    const misplacedIndex = answerChars.findIndex(
-      (char) => char === guessChars[i]
-    );
-    if (misplacedIndex >= 0) {
-      status = LetterStatuses.MISPLACED;
-      answerChars[misplacedIndex] = SOLVED_CHAR;
+    let status;
+    if (guessChars[i] === ' ') {
+      status = LetterStatuses.EMPTY;
+    } else {
+      status = LetterStatuses.INCORRECT;
+      const misplacedIndex = answerChars.findIndex(
+        (char) => char === guessChars[i]
+      );
+      if (misplacedIndex >= 0) {
+        status = LetterStatuses.MISPLACED;
+        answerChars[misplacedIndex] = SOLVED_CHAR;
+      }
     }
 
     result[i] = {

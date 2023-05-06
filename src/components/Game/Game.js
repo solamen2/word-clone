@@ -49,7 +49,7 @@ function Game() {
       setGameStatus(GameStatuses.LOST);
     }
 
-    const newGuess = { word: wordInput, id: crypto.randomUUID() };
+    const newGuess = { word: wordInput, id: currentGuessIndex };
     const newGuessList = [...guessList];
     newGuessList[currentGuessIndex] = newGuess;
     setGuessList(newGuessList);
