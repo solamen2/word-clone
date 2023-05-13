@@ -21,6 +21,7 @@ function Game() {
     return range(NUM_OF_GUESSES_ALLOWED).map((index) => ({
       word: ' '.repeat(WORD_SIZE),
       id: index,
+      isWinningGuess: false,
     }));
   }
   const [guessList, setGuessList] = React.useState(getNewGuessList());
@@ -43,13 +44,19 @@ function Game() {
     event.preventDefault();
 
     const newCurrentGuessIndex = currentGuessIndex + 1;
+    let newIsWinningGuess = false;
     if (wordInput === answer) {
       setGameStatus(GameStatuses.WON);
+      newIsWinningGuess = true;
     } else if (newCurrentGuessIndex >= NUM_OF_GUESSES_ALLOWED) {
       setGameStatus(GameStatuses.LOST);
     }
 
-    const newGuess = { word: wordInput, id: currentGuessIndex };
+    const newGuess = {
+      word: wordInput,
+      id: currentGuessIndex,
+      isWinningGuess: newIsWinningGuess,
+    };
     const newGuessList = [...guessList];
     newGuessList[currentGuessIndex] = newGuess;
     setGuessList(newGuessList);

@@ -51,6 +51,7 @@ button {
 
 header {
   display: flex;
+  position: relative;
   height: var(--header-height);
   border-bottom: 1px solid var(--color-gray-700);
   color: var(--color-gray-300);
@@ -60,6 +61,67 @@ header .side {
   width: var(--header-height);
   display: grid;
   place-content: center;
+}
+
+.settings {
+  display: flex;
+  position: absolute;
+  right: 12px;
+  top: calc((var(--header-height) - 34px) / 2);
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  padding-right: 8px;
+}
+
+.toggle-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.toggle-input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.toggle-button {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+.toggle-button:before {
+  position: absolute;
+  content: '';
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .toggle-button {
+  background-color: #2196f3;
+}
+input:focus + .toggle-button {
+  box-shadow: 0 0 1px #2196f3;
+}
+input:checked + .toggle-button:before {
+  transform: translateX(26px);
 }
 
 h1 {
@@ -112,8 +174,26 @@ h1 {
     border-color: var(--color-gray-300);
   }
 
+  50.01% {
+    transform: rotate3d(1, 0, 0, 90deg);
+  }
+
   100% {
     transform: rotate3d(1, 0, 0, 0deg);
+  }
+}
+
+@keyframes letter-bounce {
+  0% {
+    transform: translateY(0%);
+  }
+
+  50% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(0%);
   }
 }
 
@@ -133,17 +213,12 @@ h1 {
 
   animation: flip-letter calc(2 * var(--flip-letter-speed)) linear backwards;
   animation-delay: calc(var(--flip-letter-speed) * var(--index));
-
-  transition: background, border-color;
-  transition-duration: 0ms;
-  transition-delay: var(--flip-letter-speed);
 }
 
 .cell.used.correct {
   background: var(--color-success);
   border-color: var(--color-success);
 }
-
 .cell.used.incorrect {
   background: var(--color-gray-300);
   border-color: var(--color-gray-300);
@@ -151,6 +226,19 @@ h1 {
 .cell.used.misplaced {
   background: var(--color-warning);
   border-color: var(--color-warning);
+}
+.cell.isWinningGuess {
+  animation: flip-letter calc(2 * var(--flip-letter-speed)) linear backwards;
+  animation-delay: calc(var(--flip-letter-speed) * var(--index));
+
+  /* TODO: Clean this mess up with CSS variables */
+  animation: letter-bounce calc(2 * var(--flip-letter-speed))
+      calc(
+        calc(var(--flip-letter-speed) * (var(--word-size) + 1)) +
+          calc(100ms * var(--index))
+      ),
+    flip-letter calc(2 * var(--flip-letter-speed)) linear backwards
+      calc(var(--flip-letter-speed) * var(--index));
 }
 
 /*
@@ -187,11 +275,10 @@ h1 {
   justify-content: center;
   aspect-ratio: 1 / 1;
   width: 3rem;
-  border: 2px solid var(--color-gray-700);
+  border: 2px solid var(--color-gray-900);
   border-radius: 4px;
   font-size: 2rem;
   background: var(--color-gray-900);
-  border-color: var(--color-gray-900);
   color: black;
 }
 
@@ -316,4 +403,39 @@ h1 {
   to {
     transform: translateY(0%);
   }
+}
+
+/* Dark mode styles */
+
+.dark-mode {
+  background-color: var(--color-gray-300);
+}
+
+.dark-mode header {
+  color: var(--color-gray-900);
+}
+
+.dark-mode .game-wrapper {
+  color: var(--color-gray-900);
+}
+
+.dark-mode .cell.used.incorrect {
+  background-color: var(--color-gray-500);
+  border-color: var(--color-gray-500);
+}
+
+.dark-mode .key {
+  background-color: var(--color-gray-700);
+  border-color: var(--color-gray-700);
+}
+
+.dark-mode .key.used.incorrect {
+  background-color: var(--color-gray-500);
+  border-color: var(--color-gray-500);
+}
+
+.dark-mode .word-input {
+  color: var(--color-gray-100);
+  background-color: var(--color-gray-700);
+  border-color: var(--color-gray-900);
 }

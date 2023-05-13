@@ -19,6 +19,7 @@ function WordInput({ gameStatus, handleSubmit }) {
           value={wordInput}
           type="text"
           id="word-input"
+          className="word-input"
           name="word-input"
           disabled={gameStatus !== GameStatuses.RUNNING}
           pattern={inputCheckPattern}
