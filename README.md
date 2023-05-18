@@ -1,6 +1,6 @@
 # Word Game
 
-The README below is for the online course workshop in [The Joy Of React](https://www.joyofreact.com/). I implemented most of this Wordle clone myself, but there was a bit of code and CSS provided as part of the course material. I implemented the whole workshop, including all the stretch goals, and then implemented some of my own. You can try the online version I published [here](https://word-clone-plus.fly.dev/).
+The README below is for the online course workshop in [The Joy Of React](https://www.joyofreact.com/). I implemented most of this Wordle clone myself, but there was a bit of code and CSS provided as part of the course material. I implemented the whole workshop, including all the stretch goals, and then implemented some stretch goals of my own devising. You can try the online version I published [here](https://word-clone-plus.fly.dev/).
 
 ([Create React App](https://github.com/facebook/create-react-app) deployment code for [fly.io](https://fly.io/) copied from [hello-create-react-app](https://github.com/fly-apps/hello-create-react-app))
 
