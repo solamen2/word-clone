@@ -1,15 +1,25 @@
 import React from 'react';
 
 import { LetterStatuses, checkGuess } from '../../game-helpers';
+import { WORD_SIZE } from '../../constants';
+import { INPUT_CHECK_PATTERN } from '../WordInput/WordInput';
 
 const FIRST_ROW_START = 0;
 const FIRST_ROW_END = 10;
 const SECOND_ROW_START = 10;
 const SECOND_ROW_END = 19;
 const THIRD_ROW_START = 19;
-const THIRD_ROW_END = 25;
+const THIRD_ROW_END = 28;
+const ENTER_KEY_VALUE = 'Enter';
+const DEL_KEY_VALUE = 'Del';
 
-function PreviousKeys({ guessList, answer }) {
+function PreviousKeys({
+  wordInput,
+  setWordInput,
+  handleSubmit,
+  guessList,
+  answer,
+}) {
   const qwertyAllKeys = [
     { letter: 'Q', id: '17', status: '' },
     { letter: 'W', id: '23', status: '' },
@@ -30,6 +40,7 @@ function PreviousKeys({ guessList, answer }) {
     { letter: 'J', id: '10', status: '' },
     { letter: 'K', id: '11', status: '' },
     { letter: 'L', id: '12', status: '' },
+    { letter: ENTER_KEY_VALUE, id: '27', status: '' },
     { letter: 'Z', id: '26', status: '' },
     { letter: 'X', id: '24', status: '' },
     { letter: 'C', id: '3', status: '' },
@@ -37,6 +48,7 @@ function PreviousKeys({ guessList, answer }) {
     { letter: 'B', id: '2', status: '' },
     { letter: 'N', id: '14', status: '' },
     { letter: 'M', id: '13', status: '' },
+    { letter: DEL_KEY_VALUE, id: '28', status: '' },
   ];
 
   setGuessListStatuses(guessList);
@@ -74,6 +86,38 @@ function PreviousKeys({ guessList, answer }) {
     return status === LetterStatuses.EMPTY ? 'key' : `key used ${status}`;
   }
 
+  function onClick(letter) {
+    let newWordInput = '';
+
+    if (letter === DEL_KEY_VALUE) {
+      if (wordInput) {
+        newWordInput = wordInput.slice(0, -1);
+      }
+    } else {
+      newWordInput = wordInput + letter;
+    }
+    setWordInput(newWordInput);
+  }
+
+  function bottomRowOnClick(event, letter) {
+    if (letter === ENTER_KEY_VALUE) {
+      const inputCheckRegex = new RegExp(INPUT_CHECK_PATTERN);
+      const isValidInput = inputCheckRegex.test(wordInput);
+      if (!isValidInput) {
+        window.alert(
+          'Invalid input. Please submit only ' +
+            WORD_SIZE +
+            ' uppercase letters.'
+        );
+      } else {
+        handleSubmit(event, wordInput);
+        setWordInput('');
+      }
+    } else {
+      onClick(letter);
+    }
+  }
+
   return (
     <>
       <div className="keys">
@@ -81,27 +125,39 @@ function PreviousKeys({ guessList, answer }) {
           {qwertyAllKeys
             .slice(FIRST_ROW_START, FIRST_ROW_END)
             .map(({ letter, id, status }) => (
-              <span className={getClassName(status)} key={id}>
+              <button
+                className={getClassName(status)}
+                key={id}
+                onClick={() => onClick(letter)}
+              >
                 {letter}
-              </span>
+              </button>
             ))}
         </div>
         <div className="key-row" key="2">
           {qwertyAllKeys
             .slice(SECOND_ROW_START, SECOND_ROW_END)
             .map(({ letter, id, status }) => (
-              <span className={getClassName(status)} key={id}>
+              <button
+                className={getClassName(status)}
+                key={id}
+                onClick={() => onClick(letter)}
+              >
                 {letter}
-              </span>
+              </button>
             ))}
         </div>
         <div className="key-row" key="3">
           {qwertyAllKeys
             .slice(THIRD_ROW_START, THIRD_ROW_END)
             .map(({ letter, id, status }) => (
-              <span className={getClassName(status)} key={id}>
+              <button
+                className={getClassName(status)}
+                key={id}
+                onClick={(event) => bottomRowOnClick(event, letter)}
+              >
                 {letter}
-              </span>
+              </button>
             ))}
         </div>
       </div>

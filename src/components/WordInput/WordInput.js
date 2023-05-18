@@ -2,10 +2,9 @@ import React from 'react';
 import { WORD_SIZE } from '../../constants';
 import { GameStatuses } from '../Game';
 
-function WordInput({ gameStatus, handleSubmit }) {
-  const [wordInput, setWordInput] = React.useState('');
-  const inputCheckPattern = '[A-Z]{' + WORD_SIZE + '}';
+export const INPUT_CHECK_PATTERN = '^([A-Z]{' + WORD_SIZE + '})$';
 
+function WordInput({ wordInput, setWordInput, gameStatus, handleSubmit }) {
   return (
     <div className="guess-input-wrapper">
       <form
@@ -22,7 +21,7 @@ function WordInput({ gameStatus, handleSubmit }) {
           className="word-input"
           name="word-input"
           disabled={gameStatus !== GameStatuses.RUNNING}
-          pattern={inputCheckPattern}
+          pattern={INPUT_CHECK_PATTERN}
           title={WORD_SIZE + ' letter word'}
           onChange={(event) => {
             setWordInput(event.target.value.toUpperCase());

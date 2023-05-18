@@ -16,8 +16,7 @@ html {
   --color-gray-700: hsl(0deg 0% 75%);
   --color-gray-900: hsl(0deg 0% 90%);
 
-  --flip-letter-speed: 500ms;
-  --word-size: 5;
+  --key-background-color: var(--color-gray-900);
 }
 
 /*
@@ -55,12 +54,6 @@ header {
   height: var(--header-height);
   border-bottom: 1px solid var(--color-gray-700);
   color: var(--color-gray-300);
-}
-
-header .side {
-  width: var(--header-height);
-  display: grid;
-  place-content: center;
 }
 
 .settings {
@@ -134,6 +127,8 @@ h1 {
 @media (max-width: 25rem) {
   h1 {
     font-size: 1.25rem;
+    text-align: left;
+    padding-left: 32px;
   }
 }
 
@@ -146,6 +141,13 @@ h1 {
   margin: 0 auto;
   min-width: 250px;
   max-width: min(580px, 58vh, 100%);
+}
+
+@media (max-width: 550px) {
+  .game-wrapper {
+    gap: 8px;
+    max-width: 25rem;
+  }
 }
 
 .guess-results {
@@ -228,15 +230,8 @@ h1 {
   border-color: var(--color-warning);
 }
 .cell.isWinningGuess {
-  animation: flip-letter calc(2 * var(--flip-letter-speed)) linear backwards;
-  animation-delay: calc(var(--flip-letter-speed) * var(--index));
-
-  /* TODO: Clean this mess up with CSS variables */
   animation: letter-bounce calc(2 * var(--flip-letter-speed))
-      calc(
-        calc(var(--flip-letter-speed) * (var(--word-size) + 1)) +
-          calc(100ms * var(--index))
-      ),
+      calc(var(--time-to-finish-flips) + calc(100ms * var(--index))),
     flip-letter calc(2 * var(--flip-letter-speed)) linear backwards
       calc(var(--flip-letter-speed) * var(--index));
 }
@@ -271,24 +266,57 @@ h1 {
 }
 
 .key {
-  display: grid;
+  display: flex;
   justify-content: center;
-  aspect-ratio: 1 / 1;
+  min-width: fit-content;
+  padding: 0 0.5rem;
   width: 3rem;
-  border: 2px solid var(--color-gray-900);
+  border: 2px solid var(--key-background-color);
   border-radius: 4px;
   font-size: 2rem;
-  background: var(--color-gray-900);
+  background: var(--key-background-color);
   color: black;
 }
 
+@media (max-width: 550px) {
+  .key {
+    padding: 0;
+    width: 2rem;
+  }
+}
+
+/* Note: Using keyframe to do this instead of transition to avoid
+ ugly delays when switching dark mode on and off */
+@keyframes flip-letters-wait {
+  0% {
+    background: var(--key-background-color);
+    border-color: var(--key-background-color);
+    color: black;
+  }
+
+  99.99% {
+    background: var(--key-background-color);
+    border-color: var(--key-background-color);
+    color: black;
+  }
+
+  100% {
+  }
+}
+
 .key.used {
-  transition: background, border-color, color;
-  transition-duration: 0ms;
-  transition-delay: calc(var(--flip-letter-speed) * (var(--word-size) + 1));
+  animation: flip-letters-wait 0ms backwards;
+  animation-delay: var(--time-to-finish-flips);
 }
 
 .key.used.correct {
+  /* HACK: Use transition logic only for correct color, so we won't see the color early.
+   This works without causing dark mode switchover issues because the correct color doesn't change
+   during dark mode transitions. */
+  transition: background, border-color, color;
+  transition-duration: 0ms;
+  transition-delay: calc(var(--time-to-finish-flips));
+
   background: var(--color-success);
   border-color: var(--color-success);
   color: white;
@@ -336,7 +364,6 @@ h1 {
   padding: 32px;
   text-align: center;
   animation: slideUp 750ms cubic-bezier(0, 0.72, 0.24, 1.02) backwards;
-  animation-delay: calc(var(--flip-letter-speed) * (var(--word-size) + 1));
   border-radius: 4px 4px 0px 0px;
   will-change: transform;
   z-index: 2;
@@ -425,8 +452,7 @@ h1 {
 }
 
 .dark-mode .key {
-  background-color: var(--color-gray-700);
-  border-color: var(--color-gray-700);
+  --key-background-color: var(--color-gray-700);
 }
 
 .dark-mode .key.used.incorrect {

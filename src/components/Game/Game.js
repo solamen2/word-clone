@@ -2,7 +2,11 @@ import React from 'react';
 
 import { sample } from '../../utils';
 import { WORDS } from '../../data';
-import { NUM_OF_GUESSES_ALLOWED, WORD_SIZE } from '../../constants';
+import {
+  TIME_TO_FINISH_FLIPS,
+  NUM_OF_GUESSES_ALLOWED,
+  WORD_SIZE,
+} from '../../constants';
 import { range } from '../../utils';
 
 import PreviousGuesses from '../PreviousGuesses/PreviousGuesses';
@@ -46,10 +50,10 @@ function Game() {
     const newCurrentGuessIndex = currentGuessIndex + 1;
     let newIsWinningGuess = false;
     if (wordInput === answer) {
-      setGameStatus(GameStatuses.WON);
+      setTimeout(() => setGameStatus(GameStatuses.WON), TIME_TO_FINISH_FLIPS);
       newIsWinningGuess = true;
     } else if (newCurrentGuessIndex >= NUM_OF_GUESSES_ALLOWED) {
-      setGameStatus(GameStatuses.LOST);
+      setTimeout(() => setGameStatus(GameStatuses.LOST), TIME_TO_FINISH_FLIPS);
     }
 
     const newGuess = {
@@ -63,17 +67,30 @@ function Game() {
     setCurrentGuessIndex(newCurrentGuessIndex);
   }
 
+  const [wordInput, setWordInput] = React.useState('');
+
   return (
     <>
       <PreviousGuesses guessList={guessList} answer={answer} />
-      <WordInput gameStatus={gameStatus} handleSubmit={handleSubmit} />
+      <WordInput
+        wordInput={wordInput}
+        setWordInput={setWordInput}
+        gameStatus={gameStatus}
+        handleSubmit={handleSubmit}
+      />
       <GameOverBanner
         gameStatus={gameStatus}
         resetGame={resetGame}
         numOfGuesses={currentGuessIndex}
         answer={answer}
       />
-      <PreviousKeys guessList={guessList} answer={answer} />
+      <PreviousKeys
+        wordInput={wordInput}
+        setWordInput={setWordInput}
+        handleSubmit={handleSubmit}
+        guessList={guessList}
+        answer={answer}
+      />
     </>
   );
 }

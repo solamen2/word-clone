@@ -4,7 +4,7 @@ function Settings({ isDarkMode, setIsDarkMode }) {
   return (
     <div className="settings-wrapper">
       <div className="settings">
-        <label className="toggle-label" htmlFor="toggle-input">
+        <label className="toggle-label" htmlFor="dark-mode-checkbox">
           Dark Mode
         </label>
         <div className="toggle-wrapper">
