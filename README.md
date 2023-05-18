@@ -1,5 +1,9 @@
 # Word Game
 
+The README below is for the online course workshop in [The Joy Of React](https://www.joyofreact.com/). I implemented most of this Wordle clone myself, but there was a bit of code and CSS provided as part of the course material. I implemented the whole workshop, including all the stretch goals, and then implemented some of my own. You can try the online version I published [here](https://word-clone-plus.fly.dev/).
+
+([Create React App](https://github.com/facebook/create-react-app) deployment code for [fly.io](https://fly.io/) copied from [hello-create-react-app](https://github.com/fly-apps/hello-create-react-app))
+
 ## Joy of React, Project I
 
 In this project, we'll recreate a popular online word game, Wordle:
@@ -225,10 +229,7 @@ The user wins the game when their guessed word is identical to the `answer`. The
 
 ```html
 <div class="happy banner">
-  <p>
-    <strong>Congratulations!</strong> Got it in
-    <strong>3 guesses</strong>.
-  </p>
+  <p><strong>Congratulations!</strong> Got it in <strong>3 guesses</strong>.</p>
 </div>
 ```
 
