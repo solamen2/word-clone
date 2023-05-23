@@ -9,9 +9,10 @@ import Game from '../Game';
 import Header from '../Header';
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = React.useState(
-    JSON.parse(window.localStorage.getItem('is-dark-mode'))
-  );
+  const [isDarkMode, setIsDarkMode] = React.useState(() => {
+    const isDarkMode = JSON.parse(window.localStorage.getItem('is-dark-mode'));
+    return isDarkMode || false;
+  });
 
   React.useEffect(() => {
     window.localStorage.setItem('is-dark-mode', isDarkMode);
