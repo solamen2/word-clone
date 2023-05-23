@@ -9,7 +9,13 @@ import Game from '../Game';
 import Header from '../Header';
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = React.useState(false);
+  const [isDarkMode, setIsDarkMode] = React.useState(
+    JSON.parse(window.localStorage.getItem('is-dark-mode'))
+  );
+
+  React.useEffect(() => {
+    window.localStorage.setItem('is-dark-mode', isDarkMode);
+  }, [isDarkMode]);
 
   return (
     <div
