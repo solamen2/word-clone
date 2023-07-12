@@ -1,6 +1,10 @@
 import React from 'react';
 
-function Settings({ isDarkMode, setIsDarkMode }) {
+import { ConfigContext } from '../ConfigProvider/ConfigProvider';
+
+function Settings() {
+  const { isDarkMode, setIsDarkMode } = React.useContext(ConfigContext);
+
   return (
     <div className="settings-wrapper">
       <div className="settings">

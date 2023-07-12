@@ -118,6 +118,7 @@ function PreviousKeys({
     }
   }
 
+  // TODO: Maybe make these classes into compound classes inside this component
   return (
     <>
       <div className="keys">

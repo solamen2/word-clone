@@ -1,3 +1,5 @@
+// TODO: Expand wordlist to be original Wordle wordlist
+
 export const WORDS = [
   'AGENT',
   'WORLD',

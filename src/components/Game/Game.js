@@ -28,6 +28,9 @@ function Game() {
       isWinningGuess: false,
     }));
   }
+
+  // TODO: Move all this state (and most of the content of the functions) to context provider component pattern
+  // TODO: Check that functions are not recreated on each component render
   const [guessList, setGuessList] = React.useState(getNewGuessList());
   const [currentGuessIndex, setCurrentGuessIndex] = React.useState(0);
   const [gameStatus, setGameStatus] = React.useState(GameStatuses.RUNNING);
@@ -45,6 +48,8 @@ function Game() {
   }
 
   function handleSubmit(event, wordInput) {
+    // TODO: Prevent words not in wordlist from being submitted, and give visual feedback
+
     event.preventDefault();
 
     const newCurrentGuessIndex = currentGuessIndex + 1;
