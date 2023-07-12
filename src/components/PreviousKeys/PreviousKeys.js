@@ -3,6 +3,7 @@ import React from 'react';
 import { LetterStatuses, checkGuess } from '../../game-helpers';
 import { WORD_SIZE } from '../../constants';
 import { INPUT_CHECK_PATTERN } from '../WordInput/WordInput';
+import { CurrentGameContext } from '../CurrentGameProvider/CurrentGameProvider';
 
 const FIRST_ROW_START = 0;
 const FIRST_ROW_END = 10;
@@ -13,13 +14,10 @@ const THIRD_ROW_END = 28;
 const ENTER_KEY_VALUE = 'Enter';
 const DEL_KEY_VALUE = 'Del';
 
-function PreviousKeys({
-  wordInput,
-  setWordInput,
-  handleSubmit,
-  guessList,
-  answer,
-}) {
+function PreviousKeys() {
+  const { answer, guessList, handleSubmit, setWordInput, wordInput } =
+    React.useContext(CurrentGameContext);
+
   const qwertyAllKeys = [
     { letter: 'Q', id: '17', status: '' },
     { letter: 'W', id: '23', status: '' },

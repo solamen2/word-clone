@@ -1,10 +1,13 @@
 import React from 'react';
 import { WORD_SIZE } from '../../constants';
-import { GameStatuses } from '../Game';
+import { CurrentGameContext } from '../CurrentGameProvider/CurrentGameProvider';
 
 export const INPUT_CHECK_PATTERN = '^([A-Z]{' + WORD_SIZE + '})$';
 
-function WordInput({ wordInput, setWordInput, gameStatus, handleSubmit }) {
+function WordInput() {
+  const { gameStatus, GameStatuses, handleSubmit, setWordInput, wordInput } =
+    React.useContext(CurrentGameContext);
+
   return (
     <div className="guess-input-wrapper">
       <form

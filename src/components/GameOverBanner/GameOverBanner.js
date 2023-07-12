@@ -1,15 +1,20 @@
 import React from 'react';
 
-import { GameStatuses } from '../Game/Game';
+import { CurrentGameContext } from '../CurrentGameProvider/CurrentGameProvider';
 
-function GameOverBanner({ gameStatus, resetGame, numOfGuesses, answer }) {
+function GameOverBanner() {
+  const { answer, currentGuessIndex, gameStatus, GameStatuses, resetGame } =
+    React.useContext(CurrentGameContext);
+
   if (gameStatus === GameStatuses.WON) {
     return (
       <div className="happy banner">
         <p>
           <strong>Congratulations!</strong> You got it in{' '}
           <strong>
-            {numOfGuesses === 1 ? '1 guess' : `${numOfGuesses} guesses`}
+            {currentGuessIndex === 1
+              ? '1 guess'
+              : `${currentGuessIndex} guesses`}
           </strong>
           .
         </p>
