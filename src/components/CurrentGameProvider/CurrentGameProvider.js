@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { range, sample } from '../../utils';
-import { WORDS } from '../../data';
+import { ALLOWABLE_GUESSES_SET, WORDS } from '../../data';
 import {
   TIME_TO_FINISH_FLIPS,
   NUM_OF_GUESSES_ALLOWED,
@@ -39,8 +39,6 @@ function CurrentGameProvider({ children }) {
   }
 
   function handleSubmit(event, wordInput) {
-    // TODO: Prevent words not in wordlist from being submitted, and give visual feedback
-
     event.preventDefault();
 
     const newCurrentGuessIndex = currentGuessIndex + 1;
@@ -63,6 +61,10 @@ function CurrentGameProvider({ children }) {
     setCurrentGuessIndex(newCurrentGuessIndex);
   }
 
+  function isGuessInAllowableWords(guess) {
+    return ALLOWABLE_GUESSES_SET.has(guess);
+  }
+
   function resetGame() {
     setGuessList(getNewGuessList());
     setCurrentGuessIndex(0);
@@ -81,6 +83,7 @@ function CurrentGameProvider({ children }) {
         GameStatuses,
         guessList,
         handleSubmit,
+        isGuessInAllowableWords,
         resetGame,
         setWordInput,
         wordInput,
