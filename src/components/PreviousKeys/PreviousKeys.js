@@ -84,24 +84,14 @@ function PreviousKeys() {
     }
   }
 
-  function getClassName(status) {
-    return status === LetterStatuses.EMPTY ? 'key' : `key used ${status}`;
-  }
+  function regularKeyOnClick(event, letter) {
+    const newWordInput = wordInput + letter;
+    console.log(`letter: ${letter}, wordInput: ${wordInput}`);
 
-  function onClick(letter) {
-    let newWordInput = '';
-
-    if (letter === DEL_KEY_VALUE) {
-      if (wordInput) {
-        newWordInput = wordInput.slice(0, -1);
-      }
-    } else {
-      newWordInput = wordInput + letter;
-    }
     setWordInput(newWordInput);
   }
 
-  function bottomRowOnClick(event, letter) {
+  function enterAndDeleteOnClick(event, letter) {
     event.preventDefault();
 
     if (letter === ENTER_KEY_VALUE) {
@@ -121,56 +111,54 @@ function PreviousKeys() {
         handleSubmit(wordInput);
         setWordInput('');
       }
+    } else if (letter === DEL_KEY_VALUE) {
+      if (wordInput) {
+        setWordInput(wordInput.slice(0, -1));
+      }
     } else {
-      onClick(letter);
+      // not Enter or Delete
+      regularKeyOnClick(event, letter);
     }
   }
 
-  // TODO: Maybe make these classes into compound classes inside this component
   return (
-    <>
-      <div className="keys">
-        <div className="key-row" key="1">
-          {qwertyAllKeys
-            .slice(FIRST_ROW_START, FIRST_ROW_END)
-            .map(({ letter, id, status }) => (
-              <button
-                className={getClassName(status)}
-                key={id}
-                onClick={() => onClick(letter)}
-              >
-                {letter}
-              </button>
-            ))}
-        </div>
-        <div className="key-row" key="2">
-          {qwertyAllKeys
-            .slice(SECOND_ROW_START, SECOND_ROW_END)
-            .map(({ letter, id, status }) => (
-              <button
-                className={getClassName(status)}
-                key={id}
-                onClick={() => onClick(letter)}
-              >
-                {letter}
-              </button>
-            ))}
-        </div>
-        <div className="key-row" key="3">
-          {qwertyAllKeys
-            .slice(THIRD_ROW_START, THIRD_ROW_END)
-            .map(({ letter, id, status }) => (
-              <button
-                className={getClassName(status)}
-                key={id}
-                onClick={(event) => bottomRowOnClick(event, letter)}
-              >
-                {letter}
-              </button>
-            ))}
-        </div>
-      </div>
-    </>
+    <div className="keys">
+      <PreviousKeyRow
+        keys={qwertyAllKeys.slice(FIRST_ROW_START, FIRST_ROW_END)}
+        onClick={regularKeyOnClick}
+        rowId="1"
+      />
+      <PreviousKeyRow
+        keys={qwertyAllKeys.slice(SECOND_ROW_START, SECOND_ROW_END)}
+        onClick={regularKeyOnClick}
+        rowId="2"
+      />
+      <PreviousKeyRow
+        keys={qwertyAllKeys.slice(THIRD_ROW_START, THIRD_ROW_END)}
+        onClick={enterAndDeleteOnClick}
+        rowId="3"
+      />
+    </div>
+  );
+}
+
+function PreviousKeyRow({ keys, onClick, rowId }) {
+  function getClassName(status) {
+    return status === LetterStatuses.EMPTY ? 'key' : `key used ${status}`;
+  }
+
+  return (
+    <div className="key-row" key={rowId}>
+      {keys.map(({ letter, id, status }) => (
+        <button
+          className={getClassName(status)}
+          key={id}
+          onClick={(event) => onClick(event, letter)} // Only Enter/Delete need event; maybe factor this out someday
+        >
+          {letter}
+        </button>
+      ))}
+    </div>
   );
 }
 
