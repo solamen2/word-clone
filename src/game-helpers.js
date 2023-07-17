@@ -3,6 +3,8 @@
  * solving algorithm!
  */
 
+import { ALLOWABLE_GUESSES_SET, WORDS_SET } from './data';
+
 export const LetterStatuses = Object.freeze({
   INCORRECT: 'incorrect',
   MISPLACED: 'misplaced',
@@ -64,4 +66,8 @@ export function checkGuess(guess, answer) {
   }
 
   return result;
+}
+
+export function isGuessInAllowableWords(guess) {
+  return WORDS_SET.has(guess) || ALLOWABLE_GUESSES_SET.has(guess);
 }

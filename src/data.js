@@ -12976,4 +12976,5 @@ const ALLOWABLE_GUESSES = [
   'ZYMIC',
 ];
 
+export const WORDS_SET = new Set(WORDS);
 export const ALLOWABLE_GUESSES_SET = new Set(ALLOWABLE_GUESSES);

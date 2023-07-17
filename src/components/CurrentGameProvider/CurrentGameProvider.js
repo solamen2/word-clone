@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { range, sample } from '../../utils';
-import { ALLOWABLE_GUESSES_SET, WORDS } from '../../data';
 import {
   TIME_TO_FINISH_FLIPS,
   NUM_OF_GUESSES_ALLOWED,
   WORD_SIZE,
 } from '../../constants';
+import { WORDS } from '../../data';
+import { sample, range } from '../../utils';
 
 export const CurrentGameContext = React.createContext();
 
@@ -21,7 +21,6 @@ function CurrentGameProvider({ children }) {
     []
   );
 
-  // TODO: Check that functions are not recreated on each component render
   const [answer, setAnswer] = React.useState(sample(WORDS));
   // To make debugging easier, we'll log the solution in the console.
   console.info({ answer });
@@ -38,9 +37,7 @@ function CurrentGameProvider({ children }) {
     }));
   }
 
-  function handleSubmit(event, wordInput) {
-    event.preventDefault();
-
+  function handleSubmit(wordInput) {
     const newCurrentGuessIndex = currentGuessIndex + 1;
     let newIsWinningGuess = false;
     if (wordInput === answer) {
@@ -61,10 +58,6 @@ function CurrentGameProvider({ children }) {
     setCurrentGuessIndex(newCurrentGuessIndex);
   }
 
-  function isGuessInAllowableWords(guess) {
-    return ALLOWABLE_GUESSES_SET.has(guess);
-  }
-
   function resetGame() {
     setGuessList(getNewGuessList());
     setCurrentGuessIndex(0);
@@ -74,21 +67,20 @@ function CurrentGameProvider({ children }) {
     console.info({ answer });
   }
 
+  const value = {
+    answer,
+    currentGuessIndex,
+    gameStatus,
+    GameStatuses,
+    guessList,
+    handleSubmit,
+    resetGame,
+    setWordInput,
+    wordInput,
+  };
+
   return (
-    <CurrentGameContext.Provider
-      value={{
-        answer,
-        currentGuessIndex,
-        gameStatus,
-        GameStatuses,
-        guessList,
-        handleSubmit,
-        isGuessInAllowableWords,
-        resetGame,
-        setWordInput,
-        wordInput,
-      }}
-    >
+    <CurrentGameContext.Provider value={value}>
       {children}
     </CurrentGameContext.Provider>
   );

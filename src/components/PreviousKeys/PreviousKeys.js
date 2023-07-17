@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { LetterStatuses, checkGuess } from '../../game-helpers';
+import {
+  LetterStatuses,
+  checkGuess,
+  isGuessInAllowableWords,
+} from '../../game-helpers';
 import { WORD_SIZE } from '../../constants';
 import { INPUT_CHECK_PATTERN } from '../WordInput/WordInput';
 import { CurrentGameContext } from '../CurrentGameProvider/CurrentGameProvider';
@@ -15,14 +19,8 @@ const ENTER_KEY_VALUE = 'Enter';
 const DEL_KEY_VALUE = 'Del';
 
 function PreviousKeys() {
-  const {
-    answer,
-    guessList,
-    handleSubmit,
-    isGuessInAllowableWords,
-    setWordInput,
-    wordInput,
-  } = React.useContext(CurrentGameContext);
+  const { answer, guessList, handleSubmit, setWordInput, wordInput } =
+    React.useContext(CurrentGameContext);
 
   const qwertyAllKeys = [
     { letter: 'Q', id: '17', status: '' },
@@ -104,6 +102,8 @@ function PreviousKeys() {
   }
 
   function bottomRowOnClick(event, letter) {
+    event.preventDefault();
+
     if (letter === ENTER_KEY_VALUE) {
       const inputCheckRegex = new RegExp(INPUT_CHECK_PATTERN);
       const isValidInput = inputCheckRegex.test(wordInput);
@@ -118,7 +118,7 @@ function PreviousKeys() {
           'Invalid input. Please submit a word in the valid word list.'
         );
       } else {
-        handleSubmit(event, wordInput);
+        handleSubmit(wordInput);
         setWordInput('');
       }
     } else {
